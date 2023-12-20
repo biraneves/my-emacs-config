@@ -1,0 +1,15 @@
+auto-save-list/
+eln-cache/
+elpa/
+eshell/
+transient/
+tutorial/
+url/
+*~
+*.dat
+*.last
+*.db
+*.eld
+recentf
+bookmarks
+config.el
