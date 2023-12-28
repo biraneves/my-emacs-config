@@ -14,6 +14,9 @@
 - [[#elfeed][ELFEED]]
   - [[#elfeed-feeds][Elfeed Feeds]]
   - [[#elfeed-goodies][Elfeed Goodies]]
+- [[#relative-line-numbers][RELATIVE LINE NUMBERS]]
+- [[#magit][MAGIT]]
+- [[#neotree][NEOTREE]]
 - [[#org-mode][ORG MODE]]
   - [[#expansão-de-tags-de-blocos-de-código][Expansão de tags de blocos de código]]
   - [[#habilita-o-sumário][Habilita o sumário]]
@@ -24,6 +27,7 @@
 - [[#page-break-lines][PAGE BREAK LINES]]
 - [[#projectile][PROJECTILE]]
 - [[#reconfiguração-de-alguns-padrões][RECONFIGURAÇÃO DE ALGUNS PADRÕES]]
+- [[#restclient][RESTCLIENT]]
 - [[#revealjs][REVEAL.JS]]
 - [[#swiper][SWIPER]]
 - [[#which-key][WHICH-KEY]]
@@ -75,39 +79,42 @@ Mecanismo para autocompletar palavras durante a digitação.
 * DASHBOARD
 
 #+begin_src elisp
-  (require 'dashboard)
-  (require 'all-the-icons)
+  (use-package dashboard
+    :ensure t)
+  (use-package all-the-icons
+    :ensure t)
 
-  (setq dashboard-startup-banner "~/.emacs.d/images/gnu-emacs-biraneves.png")
-  (setq dashboard-center-content t)
-  (setq dashboard-items '((recents . 5)
-                          (bookmarks . 5)
-                          (projects . 10)
-                          (agenda . 5)))
+    (setq dashboard-startup-banner "~/.emacs.d/images/gnu-emacs-biraneves.png")
+    (setq dashboard-center-content t)
+    (setq dashboard-items '((recents . 5)
+			    (bookmarks . 5)
+			    (projects . 10)
+			    (agenda . 5)))
 
-  (setq dashboard-icon-type 'all-the-icons)
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book")
-                                    (projects . "file-directory")
-                                    (agenda . "calendar")))
+    (setq dashboard-icon-type 'all-the-icons)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (dashboard-modify-heading-icons '((recents . "file-text")
+				      (bookmarks . "book")
+				      (projects . "file-directory")
+				      (agenda . "calendar")))
 
-  (global-set-key (kbd "C-c d o") 'dashboard-open)
-  
-  (dashboard-setup-startup-hook)
+    (global-set-key (kbd "C-c d o") 'dashboard-open)
+
+    (dashboard-setup-startup-hook)
 #+end_src
 
 * DOOM THEMES
 Permite o uso de temas pré-configurados do Doom Emacs.
 
 #+begin_src elisp
-  (require 'doom-themes)
+  (use-package doom-themes
+    :ensure t)
 
   (setq doom-themes-enable-bold t
 	doom-themes-enable-italic t)
 
-  (load-theme 'doom-palenight t)
+  (load-theme 'doom-gruvbox t)
 
   (doom-themes-visual-bell-config)
 #+end_src
@@ -115,7 +122,7 @@ Permite o uso de temas pré-configurados do Doom Emacs.
 * ELFEED
 
 #+begin_src elisp
-  (setq elfeed-db-directory "~/Documents/org/elfeed/elfeeddb")
+  (setq elfeed-db-directory "~/Documentos/org/elfeed/elfeeddb")
   (use-package elfeed
     :ensure t
     :bind (:map elfeed-search-mode-map
@@ -148,6 +155,36 @@ Permite o uso de temas pré-configurados do Doom Emacs.
     (elfeed-goodies/setup))
 #+end_src
 
+* RELATIVE LINE NUMBERS
+
+#+begin_src elisp
+  (use-package linum-relative
+    :ensure t)
+#+end_src
+
+#+RESULTS:
+
+* MAGIT
+
+#+begin_src elisp
+  (use-package magit
+    :ensure t)
+#+end_src
+
+#+RESULTS:
+
+* NEOTREE
+
+#+begin_src elisp
+  (use-package neotree
+    :ensure t)
+
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+#+end_src
+
+#+RESULTS:
+: icons
 
 * ORG MODE
 
@@ -161,6 +198,7 @@ Permite o uso de temas pré-configurados do Doom Emacs.
 
 #+begin_src elisp
   (use-package toc-org
+    :ensure t
     :commands toc-org-enable
     :init (add-hook 'org-mode-hook 'toc-org-enable))
 #+end_src
@@ -179,7 +217,7 @@ Aqui, usamos o pacote =org-superstars=, o sucessor natural do =org-bullets=, que
 
 #+begin_src elisp
   (custom-set-variables
-   '(org-directory "~/Documents/org/")
+   '(org-directory "~/Documentos/org/")
    '(org-default-notes-file (concat org-directory "notes.org"))
    '(org-startup-indented t))
 
@@ -188,27 +226,27 @@ Aqui, usamos o pacote =org-superstars=, o sucessor natural do =org-bullets=, que
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
 
-  (setq org-agenda-files (list "~/Documents/org/gcal.org"
-                               "~/Documents/org/i.org"
-                               "~/Documents/org/schedule.org"))
+  (setq org-agenda-files (list "~/Documentos/org/gcal.org"
+                               "~/Documentos/org/i.org"
+                               "~/Documentos/org/schedule.org"))
 
   (setq org-capture-templates
-        '(("a" "Appointment" entry (file+headline "~/Documents/org/gcal.org" "Appointments")
+        '(("a" "Appointment" entry (file+headline "~/Documentos/org/gcal.org" "Appointments")
            "* TODO %?\n:PROPERTIES:\n\n:END:\nSCHEDULED: %^T \n %i\n")
 
-          ("n" "Note" entry (file+headline "~/Documents/org/notes.org" "Notes")
+          ("n" "Note" entry (file+headline "~/Documentos/org/notes.org" "Notes")
            "* Note %?\n%T")
 
-          ("l" "Link" entry (file+headline "~/Documents/org/links.org" "Links")
+          ("l" "Link" entry (file+headline "~/Documentos/org/links.org" "Links")
            "* [[%^{URL}][%^{Title}]] :%^{Tags}:\n%T" :prepend t)
 
-          ("b" "Blog idea" entry (file+headline "~/Documents/org/i.org" "Blog Topics")
+          ("b" "Blog idea" entry (file+headline "~/Documentos/org/i.org" "Blog Topics")
            "* %?\n%T" :prepend t)
 
-          ("t" "To do item" entry (file+headline "~/Documents/org/i.org" "To Do Items")
+          ("t" "To do item" entry (file+headline "~/Documentos/org/i.org" "To Do Items")
            "* %?\n%T" :prepend t)
 
-          ("j" "Journal" entry (file+datetree "~/Documents/org/journal.org")
+          ("j" "Journal" entry (file+datetree "~/Documentos/org/journal.org")
            "* %?\nRegistrado em %U\n  %i\n  %a")))
 #+end_src
 
@@ -220,9 +258,9 @@ Aqui, usamos o pacote =org-superstars=, o sucessor natural do =org-bullets=, que
   (setq org-hide-emphasis-markers t)
 
   (global-set-key (kbd "\e\ei")
-                  (lambda () (interactive) (find-file "~/Documents/org/i.org")))
+                  (lambda () (interactive) (find-file "~/Documentos/org/i.org")))
   (global-set-key (kbd "\e\el")
-                  (lambda () (interactive) (find-file "~/Documents/org/links.org")))
+                  (lambda () (interactive) (find-file "~/Documentos/org/links.org")))
   (global-set-key (kbd "\e\ec")
                   (lambda () (interactive) (find-file "~/.emacs.d/config.org")))
 #+end_src
@@ -234,7 +272,7 @@ Aqui, usamos o pacote =org-superstars=, o sucessor natural do =org-bullets=, que
   (use-package org-roam
     :ensure t
     :custom
-    (org-roam-directory (file-truename "/Users/biraneves/Documents/org/roam/"))
+    (org-roam-directory (file-truename "/home/biraneves/Documentos/org/roam/"))
     :bind (("C-c n l" . org-roam-buffer-toggle)
 	   ("C-c n f" . org-roam-node-find)
 	   ("C-c n g" . org-roam-graph)
@@ -250,7 +288,8 @@ Aqui, usamos o pacote =org-superstars=, o sucessor natural do =org-bullets=, que
 Este pacote é necessário (opcional) para uma melhor apresentação do /dashboard/.
 
 #+begin_src elisp
-  (require 'page-break-lines)
+  (use-package page-break-lines
+    :ensure t)
 #+end_src
 
 
@@ -258,7 +297,8 @@ Este pacote é necessário (opcional) para uma melhor apresentação do /dashboa
 Facilita o manejo de arquivos ligados a um projeto.
 
 #+begin_src elisp
-  (require 'projectile)
+  (use-package projectile
+    :ensure t)
 
   (setq projectile-project-search-path '("~/Git/"))
 #+end_src
@@ -274,7 +314,29 @@ Ajustando alguns padrões do Emacs para melhorar a usabilidade.
   (setq ido-enable-flex-matching t)
   (setq ido-everywhere t)
   (ido-mode 1)
+
+  (display-line-numbers-mode t)
+  (setq display-line-numbers-type 'relative)
 #+end_src
+
+#+RESULTS:
+: relative
+
+* RESTCLIENT
+
+#+begin_src elisp
+  (use-package restclient
+    :ensure t)
+
+  (use-package ob-restclient
+    :ensure t)
+
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((restclient . t)))
+#+end_src
+
+#+RESULTS:
 
 * REVEAL.JS
 
